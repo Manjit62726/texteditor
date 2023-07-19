@@ -1,0 +1,176 @@
+body {
+   background: url("/static/images/book.jpg") center / cover no-repeat;
+    height: 100vh;
+    margin: 0;
+}
+
+/* CSS for navigation bar */
+.navbar {
+    border-radius: 20px;
+    height: fit-content;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, .4);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    padding: 0 20px; /* Adjust the left and right padding here */
+    margin: 10px auto; /* Center the navbar using margin: 0 auto; */
+}
+
+.navbar .nav-link {
+    list-style: none;
+    padding: 20px 50px;
+    margin: 0 25px;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.navbar .nav-link  {
+    color: white;
+    font-family: Cursive;
+    font-weight: bold;
+    text-decoration: none;
+    position: relative; /
+    top: 3px;
+}
+
+.navbar .nav-link::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    transition: .2s;
+    border-radius: 25px;
+}
+
+.navbar .nav-link:hover::before {
+    background: linear-gradient(to bottom, #e8edec, #d2d1d3);
+    box-shadow: 0px 3px 20px 0px black;
+    transform: scale(1.2);
+}
+
+.navbar .nav-link:hover {
+    color: black;
+}
+
+/* CSS for welcome animation */
+@keyframes welcomeAnimation {
+  0% {
+    color: #8b0000;
+    transform: scale(1);
+  }
+  50% {
+    color: #000000;
+    transform: scale(1.2);
+  }
+  100% {
+    color: #000080;
+    transform: scale(1);
+  }
+}
+
+.welcome-container {
+  font-family: bradley hand, cursive;
+  font-weight: bold;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome {
+  font-size: 20px;
+  font-weight: bold;
+  animation: welcomeAnimation 3s infinite;
+}
+
+.highlight {
+  background-color: #5F9EA0;
+  color: white;
+  padding: 3px 5px;
+}
+
+
+.cloud {
+  background-color: Lightcoral;
+  border-radius: 30px;
+  height: fit-content;
+  display: flex;
+  width: 800px;
+  padding: 25px;
+  margin-top: 30px;
+  margin-bottom: 35px;
+  border-radius: 90px;
+}
+
+.cloud h1 {
+    background-color: orange;
+   font-family: bradley hand, cursive;
+  font-weight: bold;
+    color: #00008B;
+    mix-blend-mode: multiply;
+    font-size: 30px;
+    margin-top: 5px;
+}
+
+.cloud h2 {
+   font-family: bradley hand, cursive;
+   font-weight: bold;
+    background-color: lightblue;
+    color: green;
+    mix-blend-mode: multiply;
+    font-size: 30px;
+    margin-top: 5px;
+}
+
+.cloud h3 {
+    font-family: bradley hand, cursive;
+    font-weight: bold;
+    background-color: violet;
+    color: purple;
+    mix-blend-mode: multiply;
+    font-size: 30px;
+    margin-top: 5px;
+}
+
+.cloud button {
+  --c: #229091; /* the color */
+  box-shadow: 0 0 0 .1em inset var(--c);
+  --_g: linear-gradient(var(--c) 0 0) no-repeat;
+  background:
+    var(--_g) calc(var(--_p,0%) - 100%) 0%,
+    var(--_g) calc(200% - var(--_p,0%)) 0%,
+    var(--_g) calc(var(--_p,0%) - 100%) 100%,
+    var(--_g) calc(200% - var(--_p,0%)) 100%;
+  background-size: 50.5% calc(var(--_p,0%)/2 + .5%);
+  outline-offset: .1em;
+  transition: background-size .4s, background-position 0s .4s;
+  font-family: system-ui, sans-serif;
+  font-size: 20px; /* Adjust the button size here */
+  cursor: pointer;
+  padding: .2em .5em;
+  font-weight: bold;
+  border: none;
+  position: absolute;
+  left: 40px;
+  margin-top: 45px;
+  border-radius: 100px;
+}
+
+
+.cloud button:hover {
+  --_p: 100%;
+  transition: background-position .4s, background-size 0s;
+}
+
+.cloud button:active {
+  box-shadow: 0 0 9e9q inset #0009;
+  background-color: var(--c);
+  color: #fff;
+}

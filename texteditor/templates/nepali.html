@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../static/nepali.css" type="text/css" />
+</head>
+<body>
+
+    <div class="container">
+        <ul>
+
+               <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+
+            <li>
+                <a href="#">About</a>
+            </li>
+            <li>
+                <a href="#">Contact</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="unicode_wrap">
+        <p>Nepali Text Converter</p>
+        <form name="Form1">
+            <textarea class="textarea_unicode" id="roman" name="ascii" cols="62" rows="7" onKeyUp="javascript:convert();" placeholder="Type in roman nepali..."></textarea>
+            <button onclick="copyUnicode(event)" type="button">Copy</button>
+            <input type="button" value="Clear" onclick="clearContent()">
+            <textarea id="unicode_text" class="textarea_unicode" name="unicode" cols="62" rows="7" readonly></textarea>
+            <select class="btn" onChange="javascript:convert();" name="htmlEncode" style="display: none;">
+                <option value="false" selected="selected">Unicode </option>
+                <option value="true">HTML</option>
+            </select>
+            <input disabled="disabled" class="btn" onClick="javascript:translate(Form1.ascii, Form1.unicode, eval(Form1.htmlEncode.value), Form1.smartConverter_.checked);" value="Convert" name="convertNow" type="hidden">
+            <input class="btn" onClick="javascript:smartConverter(Form1.smartConverter_.checked);convert();" checked="checked" name="smartConverter_" value="ON" type="checkbox" style="display:none;">
+        </form>
+    </div>
+
+    <script type="text/javascript" src="../static/nepali.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text_in_Image</title>
+  <link rel="stylesheet" href="../static/text_in_image.css" type="text/css" />
+
+</head>
+<body>
+
+	<header class="header">
+		<h1 class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'text_in_image' %}">Text In Image</a></h1>
+        <ul class="main-nav">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+      </ul>
+	</header>
+
+
+  <h1>Add text in Image</h1>
+  <div id="preview-container">
+    <div id="preview"></div>
+    <div id="text-container">
+      <input type="text" id="text-input" placeholder="Enter text">
+      <select id="font-select">
+        <option value="Arial">Arial</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Times New Roman">Times New Roman</option>
+         <option value="Courier New, monospace">Courier New</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="Impact, sans-serif">Impact</option>
+      <option value="Helvetica, sans-serif">Helvetica</option>
+      <option value="Tahoma, sans-serif">Tahoma</option>
+      <option value="Comic Sans MS, cursive">Comic Sans MS</option>
+      <option value="Lucida Console, monospace">Lucida Console</option>
+      <option value="Palatino Linotype, serif">Palatino Linotype</option>
+      <option value="Garamond, serif">Garamond</option>
+      <option value="Bookman, serif">Bookman</option>
+      <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
+      <option value="Copperplate, Papyrus, fantasy">Copperplate</option>
+      <option value="Arial Black, sans-serif">Arial Black</option>
+        <!-- Add more font options as needed -->
+      </select>
+       <input type="number" id="font-size-input" value="30" min="10" max="100">
+      <input type="color" id="text-color-input" value="#000000">
+      <input type="checkbox" id="bold-checkbox">
+      <label for="bold-checkbox">Bold</label>
+      <input type="checkbox" id="italic-checkbox">
+      <label for="italic-checkbox">Italic</label>
+      <input type="checkbox" id="underline-checkbox">
+      <label for="underline-checkbox">Underline</label>
+      <button id="add-text-button" onclick="addTextToImage()">Add Text</button>
+      <button id="remove-text-button" onclick="removeTextFromImage()">Remove Text</button>
+      <button id="download-button" onclick="downloadImage()">Download</button>
+    </div>
+  </div>
+  <input type="file" accept="image/*" id="file-input" onchange="handleImageUpload(event)">
+
+
+  <script type="text/javascript" src="../static/text_in_image.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    background: #e96443;
+    background: -webkit-linear-gradient(to right, #904e95, #e96443);
+    background: linear-gradient(to right, #904e95, #e96443);
+}
+
+.container {
+    display: flex;
+    padding: 15px;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+}
+
+.container ul {
+    display: flex;
+}
+
+.container li {
+    margin: 0 25px;
+}
+
+.container li a {
+    font-size: 2em;
+    transition: 0.5s;
+    color: #000;
+}
+
+.container:hover li a {
+    color: #000;
+}
+
+.container:hover li a:not(:hover) {
+    opacity: 0.3;
+}
+
+.unicode_wrap {
+    text-align: center;
+    background-color: lightgreen;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.textarea_unicode {
+    width: 100%;
+    max-width: 1200px;
+    height: 150px;
+    outline: 0;
+    font-size: 16px;
+    padding: 10px;
+    background: #d9fffc;
+    border-radius: 4px;
+    resize: vertical;
+    margin-top: 10px;
+}
+
+p {
+  font-family: bradley hand, cursive;
+  font-weight: bold;
+}
+
+button {
+    cursor: pointer;
+    padding: 8px 15px;
+    font-size: 16px;
+    background: #904e95;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+input[type="button"] {
+    cursor: pointer;
+    padding: 8px 15px;
+    font-size: 16px;
+    background: #904e95;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+select.btn {
+    cursor: pointer;
+    padding: 8px 15px;
+    font-size: 16px;
+    background: #904e95;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}

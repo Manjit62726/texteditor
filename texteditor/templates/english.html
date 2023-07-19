@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>English Font Converter</title>
+  <link rel="stylesheet" type="text/css" href="../static/english.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="navigation">
+    <ul>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <div class="container">
+      <div class="theme-switch">
+        <div class="switch"></div>
+      </div>
+    </div>
+  </div>
+
+  <h1 class="welcome-message">Welcome to English Text Editor</h1>
+
+  <textarea class="textbox" id="user-text"></textarea>
+  <div class="font-selector">
+    <div class="font-name">Font:</div>
+    <select id="font-select">
+      <option value="Arial, sans-serif">Arial</option>
+      <option value="Times New Roman, serif">Times New Roman</option>
+      <option value="Verdana, sans-serif">Verdana</option>
+      <option value="Courier New, monospace">Courier New</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="Impact, sans-serif">Impact</option>
+      <option value="Helvetica, sans-serif">Helvetica</option>
+      <option value="Tahoma, sans-serif">Tahoma</option>
+      <option value="Comic Sans MS, cursive">Comic Sans MS</option>
+      <option value="Lucida Console, monospace">Lucida Console</option>
+      <option value="Palatino Linotype, serif">Palatino Linotype</option>
+      <option value="Garamond, serif">Garamond</option>
+      <option value="Bookman, serif">Bookman</option>
+      <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
+      <option value="Copperplate, Papyrus, fantasy">Copperplate</option>
+      <option value="Arial Black, sans-serif">Arial Black</option>
+    </select>
+  </div>
+  <div class="copy-text">
+    <div class="font-name">Convert to user-written text here in selected font:</div>
+    <div class="converted-textbox" id="converted-text"></div>
+
+    <button class="format-button" onclick="toggleBold()">Bold</button>
+    <button class="format-button" onclick="toggleItalic()">Italic</button>
+    <button class="format-button" onclick="toggleUnderline()">Underline</button>
+  </div>
+  <div>
+    <button class="copy-button" onclick="copyText()">Copy Text</button>
+  </div>
+
+  <!-- New checkboxes added -->
+  <div class="form-check form-switch">
+    <input class="form-check-input" name="removepunc" type="checkbox" role="switch" id="flexSwitchCheck1">
+    <label class="form-check-label" for="flexSwitchCheck1">Remove Punctuations</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" name="fullcaps" type="checkbox" role="switch" id="flexSwitchCheck2">
+    <label class="form-check-label" for="flexSwitchCheck2">UPPERCASE</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" name="newlineremover" type="checkbox" role="switch" id="flexSwitchCheck3">
+    <label class="form-check-label" for="flexSwitchCheck3">New Line Remover</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" name="extraspaceremover" type="checkbox" role="switch" id="flexSwitchCheck4">
+    <label class="form-check-label" for="flexSwitchCheck4">Extra Spaces Remover</label>
+  </div>
+
+
+<script type="text/javascript" src="../static/english.js"></script>
+
+</body>
+</html>
