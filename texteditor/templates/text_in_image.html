@@ -1,63 +1,1222 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Text_in_Image</title>
-  <link rel="stylesheet" href="../static/text_in_image.css" type="text/css" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextEditor Pro | Professional Image Editor</title>
+    <link rel="stylesheet" href="../static/text_in_image.css" type="text/css" />
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+          --primary-color: #4361ee;
+          --secondary-color: #3f37c9;
+          --accent-color: #4cc9f0;
+          --light-bg: #f8f9fa;
+          --dark-text: #212529;
+          --light-text: #f8f9fa;
+        }
+        
+        body {
+          font-family: 'Poppins', sans-serif;
+          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          min-height: 100vh;
+          margin: 0;
+          padding-top: 70px;
+        }
+        
+        .navigation {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          z-index: 1000;
+          background-color: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav-item a {
+          color: var(--dark-text) !important;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          border-radius: 4px;
+          padding: 8px 16px;
+        }
+        
+        .nav-item a:hover,
+        .nav-item a.active {
+          color: var(--primary-color) !important;
+          background-color: rgba(67, 97, 238, 0.1);
+        }
+        
+        .container {
+          padding: 0 1.5rem;
+        }
+        
+        .image-editor-container {
+          background: white;
+          border-radius: 16px;
+          padding: 2rem;
+          margin: 2rem auto;
+          max-width: 1200px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .image-editor-container h1 {
+          text-align: center;
+          color: var(--secondary-color);
+          margin-bottom: 1.5rem;
+          font-weight: 600;
+        }
+        
+        .editor-content {
+          display: flex;
+          gap: 2rem;
+        }
+        
+        .controls-panel {
+          width: 300px;
+          background: #f8f9fa;
+          border-radius: 12px;
+          padding: 1.5rem;
+          height: fit-content;
+        }
+        
+        .preview-area {
+          flex: 1;
+        }
+        
+        .control-group {
+          margin-bottom: 1.5rem;
+        }
+        
+        .control-label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+          color: var(--dark-text);
+        }
+        
+        .control-input {
+          width: 100%;
+          padding: 0.5rem;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 1rem;
+        }
+        
+        .color-picker {
+          width: 40px;
+          height: 40px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        
+        .btn {
+          background: var(--primary-color);
+          color: white;
+          border: none;
+          padding: 0.75rem 1.5rem;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-right: 0.5rem;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        
+        .btn:hover {
+          background: var(--secondary-color);
+          transform: translateY(-2px);
+        }
+        
+        .btn-clear {
+          background: var(--danger-color);
+        }
+        
+        .btn-clear:hover {
+          background: #e63946;
+        }
+        
+        .btn-download {
+          background: var(--success-color);
+        }
+        
+        .btn-download:hover {
+          background: #05b38a;
+        }
+        
+        .image-preview {
+          width: 100%;
+          height: 500px;
+          background: #f8f9fa;
+          border: 2px dashed #ddd;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 1rem 0;
+          position: relative;
+          overflow: hidden;
+          cursor: crosshair;
+        }
+        
+        .image-preview img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+        }
+        
+        .upload-area {
+          text-align: center;
+          padding: 2rem;
+          cursor: pointer;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        
+        .upload-icon {
+          font-size: 3rem;
+          color: var(--primary-color);
+          margin-bottom: 1rem;
+        }
+        
+        .section {
+          display: none;
+          padding: 2rem 0;
+        }
+        
+        .section.active {
+          display: block;
+        }
+        
+        .about-content, .contact-content {
+          background: white;
+          border-radius: 16px;
+          padding: 2.5rem;
+          margin: 2rem auto;
+          max-width: 800px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .contact-form {
+          max-width: 600px;
+          margin: 0 auto;
+        }
+        
+        .contact-info {
+          background: #f8f9fa;
+          border-radius: 12px;
+          padding: 1.5rem;
+          margin-top: 2rem;
+        }
+        
+        footer {
+          text-align: center;
+          padding: 2rem;
+          margin-top: 3rem;
+          color: var(--dark-text);
+          opacity: 0.7;
+        }
+        
+        .stats-container {
+          display: flex;
+          justify-content: space-around;
+          margin: 1.5rem 0;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+        
+        .stat-box {
+          background: white;
+          padding: 1rem;
+          border-radius: 8px;
+          text-align: center;
+          min-width: 120px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+          font-size: 1.8rem;
+          font-weight: bold;
+          color: var(--primary-color);
+        }
+        
+        .stat-label {
+          font-size: 0.9rem;
+          color: #666;
+        }
+        
+        .additional-controls {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-top: 1.5rem;
+          padding: 1rem;
+          background: #f8f9fa;
+          border-radius: 8px;
+        }
+        
+        .export-options {
+          display: flex;
+          gap: 1rem;
+          margin-top: 1rem;
+        }
+        
+        .export-btn {
+          background: var(--success-color);
+          color: white;
+          border: none;
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        
+        .export-btn:hover {
+          background: #05b38a;
+        }
+        
+        .history-list {
+          max-height: 150px;
+          overflow-y: auto;
+          margin-top: 1rem;
+          border: 1px solid #eee;
+          border-radius: 4px;
+          padding: 0.5rem;
+        }
+        
+        .history-item {
+          padding: 0.25rem 0;
+          border-bottom: 1px solid #eee;
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+        }
+        
+        .history-item:last-child {
+          border-bottom: none;
+        }
+        
+        .history-item:hover {
+          background: #f0f8ff;
+        }
+        
+        .filter-controls {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-top: 1rem;
+        }
+        
+        .filter-btn {
+          background: #e9ecef;
+          border: 1px solid #ced4da;
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+          background: var(--primary-color);
+          color: white;
+        }
+        
+        .slider-container {
+          margin: 1rem 0;
+        }
+        
+        .slider-label {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+        }
+        
+        .text-overlay {
+          position: absolute;
+          cursor: move;
+          padding: 5px;
+          border: 1px dashed rgba(0,0,0,0.3);
+          background: rgba(255,255,255,0.3);
+          border-radius: 4px;
+        }
+        
+        .text-overlay:hover {
+          border: 1px solid rgba(0,0,0,0.5);
+        }
+        
+        .text-overlay.active {
+          border: 2px solid var(--primary-color);
+          box-shadow: 0 0 10px rgba(67, 97, 238, 0.5);
+        }
+        
+        .text-overlay .text-content {
+          pointer-events: none;
+        }
+        
+        .text-overlay .text-controls {
+          position: absolute;
+          top: -25px;
+          right: 0;
+          display: none;
+          gap: 5px;
+        }
+        
+        .text-overlay:hover .text-controls,
+        .text-overlay.active .text-controls {
+          display: flex;
+        }
+        
+        .text-control-btn {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 10px;
+          color: white;
+        }
+        
+        .delete-btn {
+          background: var(--danger-color);
+        }
+        
+        .edit-btn {
+          background: var(--primary-color);
+        }
+        
+        .history-actions {
+          display: flex;
+          gap: 0.5rem;
+        }
+        
+        .history-btn {
+          background: none;
+          border: none;
+          color: var(--primary-color);
+          cursor: pointer;
+          font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navigation navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand fw-bold fs-4 ms-3" href="/">
+            <span style="color: var(--primary-color);">Text</span><span style="color: var(--accent-color);">Editor</span><span style="color: var(--secondary-color);">Pro</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end me-3" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="showSection('editor')">Image Editor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showSection('about')">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showSection('contact')">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-	<header class="header">
-		<h1 class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'text_in_image' %}">Text In Image</a></h1>
-        <ul class="main-nav">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-      </ul>
-	</header>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Image Editor Section -->
+        <div id="editor" class="section active">
+            <div class="image-editor-container">
+                <h1><i class="fas fa-image me-2"></i>Professional Image Editor</h1>
+                
+                <div class="editor-content">
+                    <div class="controls-panel">
+                        <div class="stats-container">
+                          <div class="stat-box">
+                            <div class="stat-value" id="file-size">0 KB</div>
+                            <div class="stat-label">File Size</div>
+                          </div>
+                          <div class="stat-box">
+                            <div class="stat-value" id="dimensions">-</div>
+                            <div class="stat-label">Dimensions</div>
+                          </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Text Content</label>
+                            <textarea id="text-input" class="control-input" rows="2" placeholder="Enter text to add..."></textarea>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Font Size</label>
+                            <input type="range" id="font-size" class="control-input" min="10" max="72" value="30">
+                            <span id="font-size-value">30px</span>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Font Family</label>
+                            <select id="font-family" class="control-input">
+                                <option value="Arial">Arial</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Impact">Impact</option>
+                                <option value="Comic Sans MS">Comic Sans MS</option>
+                                <option value="Trebuchet MS">Trebuchet MS</option>
+                                <option value="Lucida Console">Lucida Console</option>
+                            </select>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Text Color</label>
+                            <input type="color" id="text-color" class="color-picker" value="#ffffff">
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Opacity</label>
+                            <input type="range" id="opacity" class="control-input" min="0" max="100" value="100">
+                            <span id="opacity-value">100%</span>
+                        </div>
+                        
+                        <div class="slider-container">
+                            <div class="slider-label">
+                                <span>Brightness</span>
+                                <span id="brightness-value">100%</span>
+                            </div>
+                            <input type="range" id="brightness" class="control-input" min="0" max="200" value="100">
+                        </div>
+                        
+                        <div class="slider-container">
+                            <div class="slider-label">
+                                <span>Contrast</span>
+                                <span id="contrast-value">100%</span>
+                            </div>
+                            <input type="range" id="contrast" class="control-input" min="0" max="200" value="100">
+                        </div>
+                        
+                        <div class="slider-container">
+                            <div class="slider-label">
+                                <span>Saturation</span>
+                                <span id="saturation-value">100%</span>
+                            </div>
+                            <input type="range" id="saturation" class="control-input" min="0" max="200" value="100">
+                        </div>
+                        
+                        <div class="filter-controls">
+                            <button class="filter-btn" onclick="applyFilter('none')">Normal</button>
+                            <button class="filter-btn" onclick="applyFilter('grayscale')">Grayscale</button>
+                            <button class="filter-btn" onclick="applyFilter('sepia')">Sepia</button>
+                            <button class="filter-btn" onclick="applyFilter('invert')">Invert</button>
+                            <button class="filter-btn" onclick="applyFilter('blur')">Blur</button>
+                        </div>
+                        
+                        <div class="additional-controls">
+                            <button class="btn" onclick="addTextToImage()">
+                                <i class="fas fa-plus me-2"></i>Add Text
+                            </button>
+                            <button class="btn btn-clear" onclick="clearAllText()">
+                                <i class="fas fa-eraser me-2"></i>Clear All
+                            </button>
+                            <button class="btn btn-download" onclick="downloadImage()">
+                                <i class="fas fa-download me-2"></i>Download
+                            </button>
+                            <button class="btn" onclick="rotateImage()">
+                                <i class="fas fa-undo me-2"></i>Rotate
+                            </button>
+                        </div>
+                        
+                        <div class="export-options">
+                          <button class="export-btn" onclick="saveToHistory()">
+                            <i class="fas fa-history me-2"></i>Save to History
+                          </button>
+                        </div>
+                        
+                        <div class="mt-3">
+                          <h5>Edit History</h5>
+                          <div class="history-list" id="history-list">
+                            <!-- History items will appear here -->
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-area">
+                        <div class="image-preview" id="image-preview">
+                            <div class="upload-area" id="upload-area">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <p>Click or drag image to upload</p>
+                                <input type="file" id="image-input" accept="image/*" style="display: none;">
+                                <button class="btn" onclick="document.getElementById('image-input').click()">
+                                    <i class="fas fa-folder-open me-2"></i>Select Image
+                                </button>
+                            </div>
+                            <img id="preview-image" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- About Section -->
+        <div id="about" class="section">
+            <div class="about-content">
+                <h2 class="text-center mb-4" style="color: var(--secondary-color);">About TextEditor Pro</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Our Mission</h4>
+                        <p>TextEditor Pro is dedicated to providing powerful and intuitive text formatting tools for multilingual content creation. We aim to make typography accessible and enjoyable for everyone.</p>
+                        
+                        <h4>Key Features</h4>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i> Advanced font transformation</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Multilingual support (English & Nepali)</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Image text embedding</li>
+                            <li><i class="fas fa-check text-success me-2"></i> User-friendly interface</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Real-time preview</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Export capabilities</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Edit history tracking</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Technology Stack</h4>
+                        <p>Built with modern web technologies including:</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fab fa-python text-info me-2"></i> Python (Django)</li>
+                            <li><i class="fab fa-html5 text-warning me-2"></i> HTML5 & CSS3</li>
+                            <li><i class="fab fa-js text-warning me-2"></i> JavaScript</li>
+                            <li><i class="fas fa-database text-primary me-2"></i> SQLite Database</li>
+                            <li><i class="fas fa-font text-secondary me-2"></i> Advanced Typography Engine</li>
+                        </ul>
+                        
+                        <h4>Our Vision</h4>
+                        <p>We envision a world where language barriers in digital content creation are eliminated, enabling seamless communication and expression in multiple languages.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <h1>Add text in Image</h1>
-  <div id="preview-container">
-    <div id="preview"></div>
-    <div id="text-container">
-      <input type="text" id="text-input" placeholder="Enter text">
-      <select id="font-select">
-        <option value="Arial">Arial</option>
-        <option value="Verdana">Verdana</option>
-        <option value="Times New Roman">Times New Roman</option>
-         <option value="Courier New, monospace">Courier New</option>
-      <option value="Georgia, serif">Georgia</option>
-      <option value="Impact, sans-serif">Impact</option>
-      <option value="Helvetica, sans-serif">Helvetica</option>
-      <option value="Tahoma, sans-serif">Tahoma</option>
-      <option value="Comic Sans MS, cursive">Comic Sans MS</option>
-      <option value="Lucida Console, monospace">Lucida Console</option>
-      <option value="Palatino Linotype, serif">Palatino Linotype</option>
-      <option value="Garamond, serif">Garamond</option>
-      <option value="Bookman, serif">Bookman</option>
-      <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
-      <option value="Copperplate, Papyrus, fantasy">Copperplate</option>
-      <option value="Arial Black, sans-serif">Arial Black</option>
-        <!-- Add more font options as needed -->
-      </select>
-       <input type="number" id="font-size-input" value="30" min="10" max="100">
-      <input type="color" id="text-color-input" value="#000000">
-      <input type="checkbox" id="bold-checkbox">
-      <label for="bold-checkbox">Bold</label>
-      <input type="checkbox" id="italic-checkbox">
-      <label for="italic-checkbox">Italic</label>
-      <input type="checkbox" id="underline-checkbox">
-      <label for="underline-checkbox">Underline</label>
-      <button id="add-text-button" onclick="addTextToImage()">Add Text</button>
-      <button id="remove-text-button" onclick="removeTextFromImage()">Remove Text</button>
-      <button id="download-button" onclick="downloadImage()">Download</button>
+        <!-- Contact Section -->
+        <div id="contact" class="section">
+            <div class="contact-content">
+                <h2 class="text-center mb-4" style="color: var(--secondary-color);">Contact Us</h2>
+                <form class="contact-form">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="subject" placeholder="Enter subject">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" rows="5" placeholder="Enter your message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                </form>
+                
+                <div class="contact-info mt-4">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-envelope fa-2x text-primary mb-2"></i>
+                            <h6>Email</h6>
+                            <p class="mb-0">support@texteditorpro.com</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-phone fa-2x text-success mb-2"></i>
+                            <h6>Phone</h6>
+                            <p class="mb-0">0123456789</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-map-marker-alt fa-2x text-danger mb-2"></i>
+                            <h6>Location</h6>
+                            <p class="mb-0">Kathmandu, Nepal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-5">
+            <p>&copy; 2022 TextEditor Pro. All rights reserved.</p>
+        </footer>
     </div>
-  </div>
-  <input type="file" accept="image/*" id="file-input" onchange="handleImageUpload(event)">
 
-
-  <script type="text/javascript" src="../static/text_in_image.js"></script>
-
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <script>
+        // Initialize edit history array
+        let editHistory = JSON.parse(localStorage.getItem('editHistory')) || [];
+        let originalImage = null;
+        let currentFilter = 'none';
+        let rotationAngle = 0;
+        let textElements = [];
+        let currentTextId = 0;
+        
+        // Get elements
+        const uploadArea = document.getElementById('upload-area');
+        const imageInput = document.getElementById('image-input');
+        const previewImage = document.getElementById('preview-image');
+        const imagePreview = document.getElementById('image-preview');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // File upload handling
+        imageInput.addEventListener('change', handleImageUpload);
+        
+        // Drag and drop functionality
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4361ee';
+            uploadArea.style.backgroundColor = '#f0f4ff';
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#ddd';
+            uploadArea.style.backgroundColor = '#f8f9fa';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ddd';
+            uploadArea.style.backgroundColor = '#f8f9fa';
+            
+            if (e.dataTransfer.files.length) {
+                imageInput.files = e.dataTransfer.files;
+                handleImageUpload();
+            }
+        });
+        
+        // Handle image upload
+        function handleImageUpload() {
+            const file = imageInput.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalImage = new Image();
+                originalImage.onload = function() {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    uploadArea.style.display = 'none';
+                    
+                    // Update stats
+                    document.getElementById('file-size').textContent = formatFileSize(file.size);
+                    document.getElementById('dimensions').textContent = `${originalImage.width} × ${originalImage.height}`;
+                    
+                    // Reset filters
+                    currentFilter = 'none';
+                    rotationAngle = 0;
+                    textElements = [];
+                    currentTextId = 0;
+                    imagePreview.innerHTML = '';
+                    imagePreview.appendChild(previewImage);
+                    
+                    applyFilter('none');
+                };
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // Add text to image at clicked position
+        function addTextToImage() {
+            if (!previewImage.src) {
+                alert('Please upload an image first');
+                return;
+            }
+            
+            const text = document.getElementById('text-input').value;
+            if (!text) {
+                alert('Please enter text to add');
+                return;
+            }
+            
+            // Create text element
+            const textElement = document.createElement('div');
+            textElement.className = 'text-overlay';
+            textElement.id = `text-${currentTextId}`;
+            
+            // Apply text styles
+            const fontSize = document.getElementById('font-size').value;
+            const fontFamily = document.getElementById('font-family').value;
+            const textColor = document.getElementById('text-color').value;
+            const opacity = document.getElementById('opacity').value / 100;
+            
+            textElement.style.cssText = `
+                position: absolute;
+                top: 50px;
+                left: 50px;
+                font-size: ${fontSize}px;
+                font-family: ${fontFamily};
+                color: ${textColor};
+                opacity: ${opacity};
+                pointer-events: all;
+            `;
+            
+            textElement.innerHTML = `
+                <div class="text-content">${text}</div>
+                <div class="text-controls">
+                    <button class="text-control-btn edit-btn" onclick="editText(${currentTextId})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="text-control-btn delete-btn" onclick="deleteText(${currentTextId})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Add drag functionality
+            makeDraggable(textElement);
+            
+            // Add to preview
+            imagePreview.appendChild(textElement);
+            
+            // Store in array
+            textElements.push({
+                id: currentTextId,
+                element: textElement,
+                content: text,
+                fontSize: fontSize,
+                fontFamily: fontFamily,
+                color: textColor,
+                opacity: opacity,
+                x: 50,
+                y: 50
+            });
+            
+            currentTextId++;
+            
+            // Clear input
+            document.getElementById('text-input').value = '';
+        }
+        
+        // Make text element draggable
+        function makeDraggable(element) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            
+            element.onmousedown = dragMouseDown;
+            
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // Get the mouse cursor position at startup
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // Call a function whenever the cursor moves
+                document.onmousemove = elementDrag;
+                
+                // Bring to front
+                element.style.zIndex = '1000';
+                element.classList.add('active');
+            }
+            
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // Calculate the new cursor position
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // Set the element's new position
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+                
+                // Update stored position
+                const id = parseInt(element.id.split('-')[1]);
+                const textObj = textElements.find(t => t.id === id);
+                if (textObj) {
+                    textObj.x = element.offsetLeft;
+                    textObj.y = element.offsetTop;
+                }
+            }
+            
+            function closeDragElement() {
+                // Stop moving when mouse button is released
+                document.onmouseup = null;
+                document.onmousemove = null;
+                element.style.zIndex = 'auto';
+                element.classList.remove('active');
+            }
+        }
+        
+        // Edit text content
+        function editText(id) {
+            const textObj = textElements.find(t => t.id === id);
+            if (textObj) {
+                document.getElementById('text-input').value = textObj.content;
+            }
+        }
+        
+        // Delete text element
+        function deleteText(id) {
+            const textObj = textElements.find(t => t.id === id);
+            if (textObj) {
+                textObj.element.remove();
+                textElements = textElements.filter(t => t.id !== id);
+            }
+        }
+        
+        // Clear all text elements
+        function clearAllText() {
+            textElements.forEach(text => text.element.remove());
+            textElements = [];
+        }
+        
+        // Apply image filter
+        function applyFilter(filterType) {
+            if (!previewImage.src) return;
+            
+            currentFilter = filterType;
+            const brightness = document.getElementById('brightness').value / 100;
+            const contrast = document.getElementById('contrast').value / 100;
+            const saturation = document.getElementById('saturation').value / 100;
+            
+            let filterString = '';
+            
+            switch(filterType) {
+                case 'grayscale':
+                    filterString = `grayscale(100%)`;
+                    break;
+                case 'sepia':
+                    filterString = `sepia(100%)`;
+                    break;
+                case 'invert':
+                    filterString = `invert(100%)`;
+                    break;
+                case 'blur':
+                    filterString = `blur(3px)`;
+                    break;
+                default:
+                    filterString = 'none';
+            }
+            
+            // Apply all filters
+            previewImage.style.filter = `
+                brightness(${brightness}) 
+                contrast(${contrast}) 
+                saturate(${saturation}) 
+                ${filterString}
+            `;
+        }
+        
+        // Rotate image
+        function rotateImage() {
+            if (!previewImage.src) return;
+            
+            rotationAngle = (rotationAngle + 90) % 360;
+            previewImage.style.transform = `rotate(${rotationAngle}deg)`;
+        }
+        
+        // Download edited image
+        function downloadImage() {
+            if (!previewImage.src) {
+                alert('Please upload an image first');
+                return;
+            }
+            
+            // Create canvas with image dimensions
+            const img = new Image();
+            img.src = previewImage.src;
+            
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                
+                // Apply rotation
+                ctx.save();
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.rotate(rotationAngle * Math.PI / 180);
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                ctx.restore();
+                
+                // Apply filters
+                const brightness = document.getElementById('brightness').value / 100;
+                const contrast = document.getElementById('contrast').value / 100;
+                const saturation = document.getElementById('saturation').value / 100;
+                
+                let filterString = '';
+                switch(currentFilter) {
+                    case 'grayscale':
+                        filterString = `grayscale(100%)`;
+                        break;
+                    case 'sepia':
+                        filterString = `sepia(100%)`;
+                        break;
+                    case 'invert':
+                        filterString = `invert(100%)`;
+                        break;
+                    case 'blur':
+                        filterString = `blur(3px)`;
+                        break;
+                    default:
+                        filterString = 'none';
+                }
+                
+                ctx.filter = `
+                    brightness(${brightness}) 
+                    contrast(${contrast}) 
+                    saturate(${saturation}) 
+                    ${filterString}
+                `;
+                
+                // Draw text elements
+                textElements.forEach(text => {
+                    ctx.fillStyle = text.color;
+                    ctx.font = `${text.fontSize}px ${text.fontFamily}`;
+                    ctx.globalAlpha = text.opacity;
+                    ctx.fillText(text.content, text.x, text.y);
+                    ctx.globalAlpha = 1;
+                });
+                
+                // Reset filter
+                ctx.filter = 'none';
+                
+                // Download
+                const link = document.createElement('a');
+                link.download = 'edited-image.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+        }
+        
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' bytes';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            else return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+        
+        // Update font size display
+        document.getElementById('font-size').addEventListener('input', function() {
+            document.getElementById('font-size-value').textContent = this.value + 'px';
+        });
+        
+        // Update opacity display
+        document.getElementById('opacity').addEventListener('input', function() {
+            document.getElementById('opacity-value').textContent = this.value + '%';
+        });
+        
+        // Update brightness display
+        document.getElementById('brightness').addEventListener('input', function() {
+            document.getElementById('brightness-value').textContent = this.value + '%';
+            if (previewImage.src) {
+                applyFilter(currentFilter);
+            }
+        });
+        
+        // Update contrast display
+        document.getElementById('contrast').addEventListener('input', function() {
+            document.getElementById('contrast-value').textContent = this.value + '%';
+            if (previewImage.src) {
+                applyFilter(currentFilter);
+            }
+        });
+        
+        // Update saturation display
+        document.getElementById('saturation').addEventListener('input', function() {
+            document.getElementById('saturation-value').textContent = this.value + '%';
+            if (previewImage.src) {
+                applyFilter(currentFilter);
+            }
+        });
+        
+        // Save to history
+        function saveToHistory() {
+            if (!previewImage.src) {
+                alert('Please upload an image first');
+                return;
+            }
+            
+            // Create a snapshot of the current state
+            const snapshot = {
+                timestamp: new Date().toLocaleString(),
+                image: previewImage.src,
+                filter: currentFilter,
+                rotation: rotationAngle,
+                textElements: textElements.map(t => ({
+                    content: t.content,
+                    fontSize: t.fontSize,
+                    fontFamily: t.fontFamily,
+                    color: t.color,
+                    opacity: t.opacity,
+                    x: t.x,
+                    y: t.y
+                }))
+            };
+            
+            editHistory.unshift(snapshot);
+            
+            // Limit history to 10 items
+            if (editHistory.length > 10) {
+                editHistory = editHistory.slice(0, 10);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('editHistory', JSON.stringify(editHistory));
+            
+            renderHistoryList();
+        }
+        
+        // Render history list
+        function renderHistoryList() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            
+            editHistory.forEach((item, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                historyItem.innerHTML = `
+                    <span>${item.timestamp}</span>
+                    <div class="history-actions">
+                        <button class="history-btn" onclick="loadHistoryItem(${index})">
+                            <i class="fas fa-sync-alt"></i> Load
+                        </button>
+                        <button class="history-btn" onclick="deleteHistoryItem(${index})">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+        
+        // Load from history
+        function loadHistoryItem(index) {
+            const item = editHistory[index];
+            if (item) {
+                previewImage.src = item.image;
+                previewImage.style.display = 'block';
+                uploadArea.style.display = 'none';
+                
+                // Reset text elements
+                textElements.forEach(text => text.element.remove());
+                textElements = [];
+                
+                // Apply stored state
+                currentFilter = item.filter;
+                rotationAngle = item.rotation;
+                previewImage.style.transform = `rotate(${rotationAngle}deg)`;
+                
+                // Apply filters
+                applyFilter(currentFilter);
+                
+                // Re-add text elements
+                item.textElements.forEach((text, id) => {
+                    // Create text element
+                    const textElement = document.createElement('div');
+                    textElement.className = 'text-overlay';
+                    textElement.id = `text-${id}`;
+                    
+                    textElement.style.cssText = `
+                        position: absolute;
+                        top: ${text.y}px;
+                        left: ${text.x}px;
+                        font-size: ${text.fontSize}px;
+                        font-family: ${text.fontFamily};
+                        color: ${text.color};
+                        opacity: ${text.opacity};
+                        pointer-events: all;
+                    `;
+                    
+                    textElement.innerHTML = `
+                        <div class="text-content">${text.content}</div>
+                        <div class="text-controls">
+                            <button class="text-control-btn edit-btn" onclick="editText(${id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-control-btn delete-btn" onclick="deleteText(${id})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    // Add drag functionality
+                    makeDraggable(textElement);
+                    
+                    // Add to preview
+                    imagePreview.appendChild(textElement);
+                    
+                    // Store in array
+                    textElements.push({
+                        id: id,
+                        element: textElement,
+                        content: text.content,
+                        fontSize: text.fontSize,
+                        fontFamily: text.fontFamily,
+                        color: text.color,
+                        opacity: text.opacity,
+                        x: text.x,
+                        y: text.y
+                    });
+                });
+            }
+        }
+        
+        // Delete history item
+        function deleteHistoryItem(index) {
+            editHistory.splice(index, 1);
+            localStorage.setItem('editHistory', JSON.stringify(editHistory));
+            renderHistoryList();
+        }
+        
+        // Load history on page load
+        window.onload = function() {
+            renderHistoryList();
+        };
+        
+        // Section switching functionality
+        function showSection(sectionId) {
+          // Hide all sections
+          document.querySelectorAll('.section').forEach(section => {
+            section.classList.remove('active');
+          });
+          
+          // Show selected section
+          document.getElementById(sectionId).classList.add('active');
+          
+          // Update active nav link
+          document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+          });
+          
+          // Find the clicked link and make it active
+          const clickedLink = event.target;
+          clickedLink.classList.add('active');
+        }
+    </script>
 </body>
 </html>
